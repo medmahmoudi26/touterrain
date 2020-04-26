@@ -99,15 +99,45 @@ router.post("/modifier-questionnaire/:id", passport.authenticate('jwt', { sessio
     }
   })
 });
+
+// Ajouter question au questionnaire
+router.post("/ajouter-question/:id", passport.authenticate('jwt', {sessions: false}), checkAdmin, function (req, res) {
+  Question.create({
+    questionnaireID : req.params.id,
+    contenu         : req.params.id
+  }, function (error, question) {
+    if (error) res.status(500).json({error_msg: error});
+    else {
+      res.status(200).json({success_msg: "Question crée"});
+    }
+  });
+});
+
 /*
- modifier question
+// modifier question
 router.post("/modifier-question/:id", passport.authenticate('jwt', { session: false }), checkAdmin, function (req, res) {
-  Question.findOne()
+  Question.findOneAndUpdate({_id: req.params.id}, {$set:{
+    contenu
+  }})
 });
 */
 
-// ajouter question
-
 // supprimer question
+
+router.delete("/supprimer-question/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
+  Question.deleteOne({_id: req.params.id}, function (errors) {
+    if (error) res.status(500).json({error_msg: error});
+    else {
+      res.status(200).json({success_msg: "Question supprimée"});
+    }
+  });
+});
+
+
+
+
+
+
+
 
 module.exports = router;

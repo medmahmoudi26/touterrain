@@ -33,5 +33,5 @@ app.get("/", function (req, res) {
   res.status(200).json({msg: "It works"})
 });
 
-
+console.log("Listening on port 80");
 app.listen(80);
