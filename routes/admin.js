@@ -44,5 +44,70 @@ router.post('/connexion', function (req, res) {
   }
 });
 
+// afficher tous les questionnaires
+router.get("/questionnaires", passport.authenticate('jwt', { session: false }), checkAdmin, function (req, res) {
+  Questionnaire.find({}, function (error, questionnaires) {
+    if (error) res.status(500).json({error_msg: error});
+    else {
+      res.status(200).json(questionnaires);
+    }
+  })
+});
+
+// ajouter questionnaire
+router.post("/ajouter-questionnaire", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
+  Questionnaire.create({
+    titre         : req.body.titre,
+    etablissement : req.body.etablissement,
+    site          : req.body.site,
+    commentaire   : req.body.commentaire
+  }, function (error, questionnaire) {
+    if (error) res.status(500).json({error_msg: error});
+    else {
+      res.status(200).json({success_msg: "Questionnaire ajouté", id: questionnaire._id});
+    }
+  });
+});
+
+// afficher questionnaire avec questions
+router.get("modifier-questionnaire/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
+  Questionnaire.findOne({_id: req.params.id}, function (error, questionnaire) {
+    if (error) res.status(500).json({error_msg: error});
+    else {
+      Question.find({questionnaireID: req.params.id}, function(err, questions) {
+        if (error) res.status(500).json({error_msg: err});
+        else {
+          res.status(200).json({questionnaire: questionnaire, questions: questions});
+        }
+      });
+    }
+  })
+});
+
+// modifier questionnaire seulement
+router.post("/modifier-questionnaire/:id", passport.authenticate('jwt', { session: false }), checkAdmin, function (req, res) {
+  Questionnaire.findOneAndUpdate({_id: req.params.id}, {$set: {
+    titre         : req.body.titre,
+    etablissement : req.body.etablissement,
+    site          : req.body.site,
+    commentaire   : req.body.commentaire
+  }}, function (error, questionnaire) {
+    if (error) {
+      res.status(500).json(error_msg: error);
+    } else {
+      res.status(200).json(success_msg: "success");
+    }
+  })
+});
+/*
+ modifier question
+router.post("/modifier-question/:id", passport.authenticate('jwt', { session: false }), checkAdmin, function (req, res) {
+  Question.findOne()
+});
+*/
+
+// ajouter question
+
+// supprimer question
 
 module.exports = router;
