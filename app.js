@@ -27,7 +27,7 @@ var userRoute  = require('./routes/user.js');
 
 //app.use('/user', userRoute);
 app.use('/', indexRoute);
-app.use('/', userRoute);
+app.use('/user', userRoute);
 
 app.get("/", function (req, res) {
   res.status(200).json({msg: "It works"})
