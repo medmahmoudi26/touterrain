@@ -133,7 +133,17 @@ router.delete("/supprimer-question/:id", passport.authenticate('jwt', {session: 
   });
 });
 
-
+router.post("/ajouter-question/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
+  Question.create({
+    questionnaireID: req.params.id,
+    contenu: req.body.conteu
+  }, function (error, question) {
+    if (error) res.status(400).json(error)
+    else {
+      res.status(200).json({success_msg: "Question crée"});
+    }
+  })
+});
 
 
 

@@ -68,13 +68,13 @@ router.post('/creer_compte', function (req, res) {
           nom: req.body.nom,
           prenom: req.body.prenom,
           email: req.body.email,
-          password: req.body.hashedpass,
+          password: hashedpass,
           poste: req.body.poste,
           estAdmin: false
         }, function (error, user) {
           if (error) res.status(400).json({error_msg: error});
           else {
-            res.status(200).json(user);
+            res.status(201).json({success_msg: "Utilisateur enregistré"});
           }
         });
       }
