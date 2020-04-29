@@ -3,7 +3,7 @@ var express      = require('express');
 //var {checkAuth} = require('../middelware/checkAuth');
 var jwt          = require('jsonwebtoken');
 var bcrypt       = require('bcrypt');
-var {checkAdmin} = require('./middelware/checkAdmin');
+var {checkAdmin} = require('../middleware/checkAdmin.js');
 
 var router = express.Router();
 
@@ -93,9 +93,9 @@ router.post("/modifier-questionnaire/:id", passport.authenticate('jwt', { sessio
     commentaire   : req.body.commentaire
   }}, function (error, questionnaire) {
     if (error) {
-      res.status(500).json(error_msg: error);
+      res.status(500).json({error_msg: error});
     } else {
-      res.status(200).json(success_msg: "success");
+      res.status(200).json({success_msg: "success"});
     }
   })
 });
