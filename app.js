@@ -24,10 +24,13 @@ app.use(cors());
 //var userRoute = require('./routes/user.js');
 var indexRoute = require('./routes/index.js');
 var userRoute  = require('./routes/user.js');
+var adminRoute = require('./routes/admin.js')
 
 //app.use('/user', userRoute);
 app.use('/', indexRoute);
 app.use('/user', userRoute);
+app.use('/admin', adminRoute);
+
 
 app.get("/", function (req, res) {
   res.status(200).json({msg: "It works"})

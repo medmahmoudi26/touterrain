@@ -70,7 +70,7 @@ router.post("/ajouter-questionnaire", passport.authenticate('jwt', {session: fal
 });
 
 // afficher questionnaire avec questions
-router.get("modifier-questionnaire/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
+router.get("/modifier-questionnaire/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
   Questionnaire.findOne({_id: req.params.id}, function (error, questionnaire) {
     if (error) res.status(500).json({error_msg: error});
     else {
