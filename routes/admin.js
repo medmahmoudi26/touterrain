@@ -5,13 +5,18 @@ var jwt          = require('jsonwebtoken');
 var bcrypt       = require('bcrypt');
 var {checkAdmin} = require('../middleware/checkAdmin.js');
 
-var router = express.Router();
-
 function createToken(user) {
-    return jwt.sign({ id: user.id, email: user.email, estAdmin: user.estAdmin }, "tourterrain", {
+    return jwt.sign({ id: user._id, email: user.email, estAdmin: user.estAdmin }, "tourterrain", {
         expiresIn: 200 // 86400 expires in 24 hours
       });
 }
+
+// models
+var User = require('../models/user.js');
+var Question = require('../models/question');
+var Questionnaire = require('../models/questionnaire');
+
+var router = express.Router();
 
 router.get("/", passport.authenticate('jwt', { session: false }), checkAdmin, function (req, res) {
   res.status(200).json("Admin page working");
@@ -58,8 +63,6 @@ router.get("/questionnaires", passport.authenticate('jwt', { session: false }), 
 router.post("/ajouter-questionnaire", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
   Questionnaire.create({
     titre         : req.body.titre,
-    etablissement : req.body.etablissement,
-    site          : req.body.site,
     commentaire   : req.body.commentaire
   }, function (error, questionnaire) {
     if (error) res.status(500).json({error_msg: error});
@@ -88,8 +91,6 @@ router.get("/modifier-questionnaire/:id", passport.authenticate('jwt', {session:
 router.post("/modifier-questionnaire/:id", passport.authenticate('jwt', { session: false }), checkAdmin, function (req, res) {
   Questionnaire.findOneAndUpdate({_id: req.params.id}, {$set: {
     titre         : req.body.titre,
-    etablissement : req.body.etablissement,
-    site          : req.body.site,
     commentaire   : req.body.commentaire
   }}, function (error, questionnaire) {
     if (error) {

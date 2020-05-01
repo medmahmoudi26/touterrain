@@ -7,4 +7,4 @@ var QuestionSchema = new Schema ({
   contenu         : {type: String, required: true}
 });
 
-module.exports = mongoose.model('user', QuestionSchema);
+module.exports = mongoose.model('question', QuestionSchema);

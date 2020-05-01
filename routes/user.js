@@ -5,7 +5,7 @@ var jwt         = require('jsonwebtoken');
 var bcrypt      = require('bcrypt');
 
 function createToken(user) {
-    return jwt.sign({ id: user.id, email: user.email, estAdmin: user.estAdmin }, "tourterrain", {
+    return jwt.sign({ id: user._id, email: user.email, estAdmin: user.estAdmin }, "tourterrain", {
         expiresIn: 200 // 86400 expires in 24 hours
       });
 }
