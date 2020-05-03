@@ -73,7 +73,7 @@ router.post("/ajouter-questionnaire", passport.authenticate('jwt', {session: fal
 });
 
 // afficher questionnaire avec questions
-router.get("/modifier-questionnaire/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
+router.get("/afficher-questionnaire/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
   Questionnaire.findOne({_id: req.params.id}, function (error, questionnaire) {
     if (error) res.status(500).json({error_msg: error});
     else {
@@ -96,11 +96,20 @@ router.post("/modifier-questionnaire/:id", passport.authenticate('jwt', { sessio
     if (error) {
       res.status(500).json({error_msg: error});
     } else {
-      res.status(200).json({success_msg: "success"});
+      req.body.questions.forEach(question) {
+        Question.create({
+          questionnaireID : req.params.id,
+          contenu         : question.contenu
+        }, function (err) {
+          if (err) res.status(400).json(err);
+        });
+      res.status(200).json({success_msg: "Questionnaire modifié"});
+      }
     }
-  })
+  });
 });
 
+/*
 // Ajouter question au questionnaire
 router.post("/ajouter-question/:id", passport.authenticate('jwt', {sessions: false}), checkAdmin, function (req, res) {
   Question.create({
@@ -109,10 +118,11 @@ router.post("/ajouter-question/:id", passport.authenticate('jwt', {sessions: fal
   }, function (error, question) {
     if (error) res.status(500).json({error_msg: error});
     else {
-      res.status(200).json({success_msg: "Question crée"});
+
     }
   });
 });
+*/
 
 /*
 // modifier question
@@ -124,7 +134,6 @@ router.post("/modifier-question/:id", passport.authenticate('jwt', { session: fa
 */
 
 // supprimer question
-
 router.delete("/supprimer-question/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
   Question.deleteOne({_id: req.params.id}, function (errors) {
     if (error) res.status(500).json({error_msg: error});
