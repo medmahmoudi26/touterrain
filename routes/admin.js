@@ -96,7 +96,7 @@ router.post("/modifier-questionnaire/:id", passport.authenticate('jwt', { sessio
     if (error) {
       res.status(500).json({error_msg: error});
     } else {
-      req.body.questions.forEach(question) {
+      req.body.questions.forEach(function(question) {
         Question.create({
           questionnaireID : req.params.id,
           contenu         : question.contenu
@@ -104,7 +104,7 @@ router.post("/modifier-questionnaire/:id", passport.authenticate('jwt', { sessio
           if (err) res.status(400).json(err);
         });
       res.status(200).json({success_msg: "Questionnaire modifié"});
-      }
+    });
     }
   });
 });

@@ -46,7 +46,7 @@ router.get("/questionnaire/:id", passport.authenticate('jwt', {session: false}),
 });
 
 
-router.post("/reponse/:id", passport.atheticate('jwt', {session: false}), function (req, res) {
+router.post("/reponse/:id", passport.authenticate('jwt', {session: false}), function (req, res) {
   Recap.create({
     etablissement: req.body.etablissement,
     site: req.body.site,
@@ -55,7 +55,7 @@ router.post("/reponse/:id", passport.atheticate('jwt', {session: false}), functi
   }, function (err, recap) {
     if (err) res.status(500).json(err);
     else {
-      req.body.questions.forEach(question) {
+      req.body.questions.forEach(function(question) {
         Reponse.create({
           recapID          : recap._id,
           contenu_question : question.contenu,
@@ -64,7 +64,7 @@ router.post("/reponse/:id", passport.atheticate('jwt', {session: false}), functi
         }, function (error) {
           if (error) res.status(500).json(error);
         });
-      }
+      });
     }
   });
 });
