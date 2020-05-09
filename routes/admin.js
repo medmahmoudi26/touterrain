@@ -101,10 +101,10 @@ router.post("/modifier-questionnaire/:id", passport.authenticate('jwt', { sessio
           questionnaireID : req.params.id,
           contenu         : question.contenu
         }, function (err) {
-          if (err) res.status(400).json(err);
+          if (err) console.log(err)
         });
-      res.status(200).json({success_msg: "Questionnaire modifié"});
     });
+    res.status(200).json({success_msg: "Questionnaire modifié"});
     }
   });
 });
