@@ -28,7 +28,7 @@ router.get('/Utilisateurs', passport.authenticate('jwt', {session: false}), func
 });
 
 router.get("/questionnaires", passport.authenticate('jwt', {session: false}), function (req, res) {
-  Questionnaires.find({}, function (err, questionnaires) {
+  Questionnaire.find({}, function (err, questionnaires) {
     if (err) res.status(500).json(err);
     else {
       res.json(questionnaires);

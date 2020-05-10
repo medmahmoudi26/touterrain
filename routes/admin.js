@@ -6,8 +6,8 @@ var bcrypt       = require('bcrypt');
 var {checkAdmin} = require('../middleware/checkAdmin.js');
 
 function createToken(user) {
-    return jwt.sign({ id: user._id, email: user.email, estAdmin: user.estAdmin }, "tourterrain", {
-        expiresIn: 200 // 86400 expires in 24 hours
+    return jwt.sign({ id: user.id, email: user.email, estAdmin: user.estAdmin }, "tourterrain", {
+        expiresIn: 86400 // 86400 expires in 24 hours
       });
 }
 
@@ -38,7 +38,7 @@ router.post('/connexion', function (req, res) {
         console.log("User no exist")
       }
 
-      if (bcrypt.compare(req.body.password, user.password)) {
+      if (bcrypt.compareSync(req.body.password, user.password)) {
         res.status(200).json({
           token: createToken(user)
         });
