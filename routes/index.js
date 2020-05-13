@@ -37,7 +37,7 @@ router.get("/questionnaires", passport.authenticate('jwt', {session: false}), fu
 });
 
 // afficher questionnaire avec questions
-router.get("/questionnaire/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
+router.get("/questionnaire/:id", passport.authenticate('jwt', {session: false}), function (req, res) {
   Questionnaire.findOne({_id: req.params.id}, function (error, questionnaire) {
     if (error) res.status(500).json({error_msg: error});
     else {
