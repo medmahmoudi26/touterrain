@@ -36,15 +36,20 @@ router.get("/questionnaires", passport.authenticate('jwt', {session: false}), fu
   })
 });
 
-router.get("/questionnaire/:id", passport.authenticate('jwt', {session: false}), function (req, res) {
-  Questionnaire.find({_id: req.params.id}, function (err, questionnaire) {
-    if (err) res.status(500).json(err);
+// afficher questionnaire avec questions
+router.get("/questionnaire/:id", passport.authenticate('jwt', {session: false}), checkAdmin, function (req, res) {
+  Questionnaire.findOne({_id: req.params.id}, function (error, questionnaire) {
+    if (error) res.status(500).json({error_msg: error});
     else {
-      res.status(200).json(questionnaire);
+      Question.find({questionnaireID: req.params.id}, function(err, questions) {
+        if (error) res.status(500).json({error_msg: err});
+        else {
+          res.status(200).json({questionnaire: questionnaire, questions: questions});
+        }
+      });
     }
   })
 });
-
 
 router.post("/reponse/:id", passport.authenticate('jwt', {session: false}), function (req, res) {
   Recap.create({
@@ -69,6 +74,7 @@ router.post("/reponse/:id", passport.authenticate('jwt', {session: false}), func
   });
 });
 
+//router.post("/recap")
 
 // how to add new responses recap ? how to
 
