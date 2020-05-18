@@ -12,6 +12,8 @@ function createToken(user) {
 
 // Models
 var User = require('../models/user');
+var Recap = require('../models/recap');
+var Reponse = require('../models/recap');
 
 // Express router
 var router = express.Router();
@@ -99,6 +101,25 @@ router.post('/profile', passport.authenticate('jwt', {session: false}), function
       else res.status(200).json(newUser);
     });
   }
+});
+
+router.get('/historique', passport.authenticate('jwt', {sesssion: false}), function (req, res) {
+  Recap.find({}, function (error, recaps) {
+    if (error) res.status(500).json(error);
+    else res.status(200).json(recap);
+  });
+});
+
+router.get('/recap/:id', passport.authenticate('jwt', {session: false}), function (req, res) {
+  Recap.findById(req,params.id, function (error, recap) {
+    if (error) res.status(500).json(error);
+    else {
+      Reponse.find({recapID: req.params.id}, function (err, reponse) {
+        if (err) res.status(500).json(err);
+        else res.status(200).json({recap: recap, reponses: reponses});
+      });
+    }
+  });
 });
 
 module.exports = router;
