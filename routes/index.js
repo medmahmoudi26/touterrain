@@ -56,7 +56,8 @@ router.post("/reponse/:id", passport.authenticate('jwt', {session: false}), func
     etablissement: req.body.etablissement,
     site: req.body.site,
     questionnaireID: req.params.id,
-    userID: req.user._id
+    userID: req.user._id,
+    date: req.body.date
   }, function (err, recap) {
     if (err) res.status(500).json(err);
     else {
