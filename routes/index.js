@@ -14,6 +14,7 @@ function createToken(user) {
 var User = require('../models/user');
 var Questionnaire = require('../models/questionnaire');
 var Question = require('../models/question');
+var Recap = require('../models/recap');
 
 // Express router
 var router = express.Router();
