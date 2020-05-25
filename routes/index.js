@@ -15,6 +15,7 @@ var User = require('../models/user');
 var Questionnaire = require('../models/questionnaire');
 var Question = require('../models/question');
 var Recap = require('../models/recap');
+var Reponse = require('../models/reponse');
 
 // Express router
 var router = express.Router();
@@ -71,10 +72,11 @@ router.post("/reponse/:id", passport.authenticate('jwt', {session: false}), func
           reponse          : question.reponse,
           commentaire      : question.commentaire
         }, function (error) {
-          if (error) res.status(500).json(error);
+          if (error) console.log(error);
         });
       });
     }
+    res.status(200).json({success_msg: "Questionnaire ajouté"});
   });
 });
 
