@@ -9,4 +9,4 @@ var ReponseSchema = new Schema ({
   commentaire      : {type: String, required: true}
 });
 
-module.exports = mongoose.model('user', ReponseSchema);
+module.exports = mongoose.model('reponse', ReponseSchema);
